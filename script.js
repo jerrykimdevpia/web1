@@ -22,4 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
             addTask();
         }
     });
+
+    // Use event delegation to handle clicks on task items
+    taskList.addEventListener('click', (e) => {
+        // Check if a list item was clicked
+        if (e.target && e.target.nodeName === 'LI') {
+            // Toggle the 'completed' class on the clicked item
+            e.target.classList.toggle('completed');
+        }
+    });
 });
