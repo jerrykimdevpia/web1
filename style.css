@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#root {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+li {
+    background: #ecf0f1;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+input, button {
+    font-family: inherit;
+    font-size: 1em;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* --- New Styles for Date Feature --- */
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#taskInput {
+    flex-grow: 1;
+}
+
+.date-header {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    color: #2980b9;
+    font-size: 1.1em;
+    font-weight: 700;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.date-header:first-of-type {
+    margin-top: 0;
+}
+
+.empty-message {
+    text-align: center;
+    color: #777;
+    margin-top: 30px;
+}
