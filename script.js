@@ -30,34 +30,56 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // 1. Group all tasks by their date
         const groupedTasks = tasks.reduce((acc, task) => {
             const date = task.date;
-            if (!acc[date]) {
-                acc[date] = [];
-            }
+            if (!acc[date]) acc[date] = [];
             acc[date].push(task);
             return acc;
         }, {});
 
-        const sortedDates = Object.keys(groupedTasks).sort((a, b) => new Date(a) - new Date(b));
+        // 2. Separate dates into today, future, and past
+        const todayStr = getTodaysDate();
+        const allDates = Object.keys(groupedTasks);
 
-        sortedDates.forEach(date => {
-            const dateHeader = document.createElement('h3');
+        const futureDates = allDates.filter(date => date > todayStr).sort(); // Ascending
+        const pastDates = allDates.filter(date => date < todayStr).sort().reverse(); // Descending
+
+        // 3. Helper function to render a group of tasks under a date header
+        const renderDateGroup = (date, isToday = false) => {
+            const dateHeader = document.createElement('h4'); // Sub-header for each date
             dateHeader.className = 'date-header';
-            dateHeader.textContent = date;
+            dateHeader.textContent = isToday ? "오늘" : date;
+            if (isToday) dateHeader.classList.add('today-header');
             taskList.appendChild(dateHeader);
 
-            const tasksForDate = groupedTasks[date];
-            tasksForDate.forEach(task => {
+            groupedTasks[date].forEach(task => {
                 const listItem = document.createElement('li');
                 listItem.textContent = task.text;
                 listItem.dataset.id = task.id;
-                if (task.completed) {
-                    listItem.classList.add('completed');
-                }
+                if (task.completed) listItem.classList.add('completed');
                 taskList.appendChild(listItem);
             });
-        });
+        };
+
+        const renderMajorGroup = (title, dates, isTodayGroup = false) => {
+             if (dates.length > 0) {
+                if (!isTodayGroup) {
+                    const groupHeader = document.createElement('h3');
+                    groupHeader.className = 'group-header';
+                    groupHeader.textContent = title;
+                    taskList.appendChild(groupHeader);
+                }
+                dates.forEach(date => renderDateGroup(date, isTodayGroup));
+            }
+        }
+
+        // 4. Render the groups in the correct order
+        if (groupedTasks[todayStr]) {
+            renderMajorGroup("오늘", [todayStr], true);
+        }
+        renderMajorGroup("예정된 할 일", futureDates);
+        renderMajorGroup("지난 할 일", pastDates);
     }
 
     function addTask() {
